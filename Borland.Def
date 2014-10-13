@@ -1,0 +1,9 @@
+
+NAME            Print WINDOWAPI
+
+CODE           
+DATA            MULTIPLE
+
+STACKSIZE       16384
+
+EXETYPE         OS2

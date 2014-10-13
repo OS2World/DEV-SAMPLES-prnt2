@@ -1,0 +1,165 @@
+
+#define INCL_WINSYS
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "prnsetup.h"
+
+ICON        WIN_PRINTDRIVER PrnDriv.Ico
+
+MENU WIN_PRINTDRIVER
+BEGIN
+
+    SUBMENU "~File",                   IDM_FILE, MIS_TEXT
+    BEGIN
+        MENUITEM "P~rint...",          IDM_PRINT, MIS_TEXT
+        MENUITEM "~Printer setup...",  IDM_PRINTERSETUP, MIS_TEXT
+    END
+END
+
+DLGTEMPLATE DLG_PRNSETUP 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Printer Setup", DLG_PRNSETUP, 70, 69, 280, 107, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE,
+                FCF_TITLEBAR | FCF_SYSMENU
+    BEGIN
+        CONTROL "Select printer to use.", -1, 5, 92, 87, 10, WC_STATIC, SS_TEXT |
+                                            DT_VCENTER | WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+        CONTROL "Printers",            -1, 5, 80, 205, 10, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_VCENTER | WS_GROUP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_DARKRED
+        CONTROL "",                    LB_PRINTERS, 5, 5, 205, 74, WC_LISTBOX,
+                                            LS_NOADJUSTPOS | LS_HORZSCROLL |
+                                            WS_VISIBLE
+        CONTROL "Select",              DID_OK, 213, 89, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_DISABLED |
+                                            WS_VISIBLE
+        CONTROL "Cancel",              DID_CANCEL, 213, 77, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Help",                DID_HLP, 213, 65, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_HELP |
+                                            BS_NOPOINTERFOCUS | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Setup...",            DID_SETUP, 213, 53, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_DISABLED | WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_FILEPRN 850
+BEGIN
+    DIALOG "File Print", DLG_FILEPRN, 42, 48, 280, 182, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE,
+                FCF_TITLEBAR | FCF_SYSMENU
+    BEGIN
+        CONTROL "Select options, font, font size and file to print.", -1,
+                                        5, 165, 205, 10, WC_STATIC, SS_TEXT |
+                                            DT_VCENTER | WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+        CONTROL "",                    -1, 5, 85, 205, 79, WC_STATIC,
+                                            SS_GROUPBOX | WS_GROUP | WS_VISIBLE
+        CONTROL "Printer:",            -1, 8, 150, 75, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_PRINTER, 85, 150, 120, 8, WC_STATIC,
+                                            SS_TEXT | DT_VCENTER | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "Current path:",       -1, 8, 140, 75, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_DIRECTORY, 85, 140, 120, 8, WC_STATIC,
+                                            SS_TEXT | DT_VCENTER | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "Volume:",             -1, 8, 130, 75, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_VOLUMELABEL, 85, 130, 120, 8,
+                                            WC_STATIC, SS_TEXT | DT_VCENTER |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "Disk remaining:",     -1, 8, 120, 75, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_DISKFREE, 85, 120, 120, 8, WC_STATIC,
+                                            SS_TEXT | DT_VCENTER | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "Number of files:",    -1, 8, 110, 75, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_FILECOUNT, 85, 110, 120, 8, WC_STATIC,
+                                            SS_TEXT | DT_VCENTER | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+        CONTROL "~Include line numbers", CB_INCLUDELINENUMS, 85, 100, 105, 8,
+                                            WC_BUTTON, BS_AUTOCHECKBOX |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Font:",               -1, 11, 89, 20, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    CBX_FONT, 34, 18, 109, 80, WC_COMBOBOX,
+                                            CBS_DROPDOWNLIST | LS_HORZSCROLL |
+                                            WS_GROUP | WS_VISIBLE
+        CONTROL "Size:",               -1, 146, 89, 20, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    CBX_FONTSIZE, 168, 18, 36, 80,
+                                            WC_COMBOBOX, CBS_DROPDOWNLIST |
+                                            WS_GROUP | WS_VISIBLE
+        CONTROL "Drives/Directories",  -1, 5, 76, 100, 8, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_VCENTER | WS_VISIBLE
+        CONTROL "Files",               -1, 110, 75, 100, 8, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    CBX_DRIVES, 5, 7, 100, 68, WC_COMBOBOX,
+                                            CBS_DROPDOWNLIST | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "",                    LB_DIRECTORIES, 5, 5, 100, 57,
+                                            WC_LISTBOX, LS_HORZSCROLL |
+                                            WS_VISIBLE
+        CONTROL "",                    LB_FILES, 110, 5, 100, 68, WC_LISTBOX,
+                                            LS_HORZSCROLL | WS_VISIBLE
+        CONTROL "Print",               DID_OK, 213, 163, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Cancel",              DID_CANCEL, 213, 151, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Help",                DID_HELP, 213, 139, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_HELP |
+                                            BS_NOPOINTERFOCUS | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Setup...",            DID_SETUP, 213, 127, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+HELPTABLE HID_APP
+BEGIN
+    HELPITEM    DLG_PRNSETUP,       HID_PRNSETUP,        HPID_PRNSETUP
+    HELPITEM    WIN_PRINTDRIVER,    HID_MAIN,            HP_APP
+END
+
+HELPSUBTABLE HID_PRNSETUP
+SUBITEMSIZE 2
+BEGIN
+    HELPSUBITEM LB_PRINTERS,        HPID_PRNSETUP
+    HELPSUBITEM DID_OK,             HPID_PRNSETUP
+    HELPSUBITEM DID_CANCEL,         HPID_PRNSETUP
+    HELPSUBITEM DID_SETUP,          HPID_PRNSETUP
+END
+
+HELPSUBTABLE HID_MAIN
+SUBITEMSIZE 2
+BEGIN
+    HELPSUBITEM IDM_FILE,           HP_FILE
+    HELPSUBITEM IDM_PRINTERSETUP,   HP_PRINTERSETUP
+END
+
+HELPSUBTABLE HID_FILEPRN
+SUBITEMSIZE 2
+BEGIN
+    HELPSUBITEM CB_INCLUDELINENUMS, HPID_FILEPRN
+    HELPSUBITEM DID_OK,             HPID_FILEPRN
+    HELPSUBITEM DID_CANCEL,         HPID_FILEPRN
+END
+

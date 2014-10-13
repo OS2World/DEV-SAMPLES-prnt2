@@ -1,0 +1,14 @@
+file Print.Obj
+file AppDefs.Obj
+file FilePrn.Obj
+file PrnAPI.Obj
+file PrnWnd.Obj
+file Support.Obj
+name Print.Exe
+option modname=Print
+format os2 lx pm
+segment class 'code'
+segment class 'data'
+option manyautodata
+option stack=16384
+option protmode
